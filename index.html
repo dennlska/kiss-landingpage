@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KISS - KI Secretary Service: Revolutionieren Sie Ihr Geschäft mit KI</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Font - Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0f172a; /* Dunkler blau-grauer Hintergrund für futuristischen Look */
+            color: #e2e8f0; /* Helle graue Schrift für Kontrast */
+        }
+        /* Primärer Button mit stärkerem Farbverlauf */
+        .btn-primary {
+            @apply px-8 py-4 bg-gradient-to-r from-blue-500 to-purple-600 text-white font-bold rounded-full shadow-lg hover:from-blue-600 hover:to-purple-700 transition-all duration-300 transform hover:scale-105;
+        }
+        /* Überschriften-Stil angepasst für dunklen Hintergrund */
+        .section-heading {
+            @apply text-4xl md:text-5xl font-bold text-center mb-12 text-white;
+        }
+        /* Karten-Stil angepasst für dunklen Hintergrund mit dezentem Rand */
+        .card {
+            @apply bg-gray-800 rounded-xl shadow-lg p-8 flex flex-col items-center text-center transition-all duration-300 hover:shadow-xl hover:scale-105 border border-gray-700;
+        }
+        /* Inline SVG Icons mit hellerem Blau für Akzent */
+        .icon-svg {
+            @apply w-12 h-12 mb-4 text-blue-400;
+        }
+        /* Keyframes für subtile Einblend-Animationen */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-fade-in-up {
+            animation: fadeIn 0.8s ease-out forwards;
+        }
+        .delay-200 { animation-delay: 0.2s; }
+        .delay-400 { animation-delay: 0.4s; }
+
+        @keyframes fadeInRight {
+            from { opacity: 0; transform: translateX(20px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+        .animate-fade-in-right {
+            animation: fadeInRight 0.8s ease-out forwards;
+        }
+
+        /* Keyframes für die "Blob"-Animation im Hero und How-It-Works-Bereich */
+        @keyframes blob {
+            0% { transform: translate(0, 0) scale(1); }
+            33% { transform: translate(30px, -50px) scale(1.1); }
+            66% { transform: translate(-20px, 20px) scale(0.9); }
+            100% { transform: translate(0, 0) scale(1); }
+        }
+        .animate-blob {
+            animation: blob 7s infinite cubic-bezier(0.68, -0.55, 0.27, 1.55);
+        }
+        .animation-delay-2000 { animation-delay: 2s; }
+
+        /* Hintergrundmuster für den Hero-Bereich */
+        .hero-background-dots {
+            background-image: radial-gradient(#374151 1px, transparent 1px); /* Dunkle Punkte auf dunklem Hintergrund */
+            background-size: 20px 20px;
+            opacity: 0.2;
+        }
+        .hero-background-overlay {
+            background: linear-gradient(to bottom, rgba(30,58,138,0.3) 0%, rgba(30,58,138,0) 100%); /* Dezenter Gradient-Overlay */
+        }
+
+        /* Responsive container for video players like Wistia */
+        .video-container {
+            position: relative;
+            width: 100%;
+            padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
+            height: 0;
+            overflow: hidden;
+            border-radius: 0.75rem; /* rounded-xl */
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04); /* shadow-2xl */
+            border: 1px solid #374151; /* border-gray-700 */
+        }
+
+        /* Wistia player initial styling for seamless loading */
+        wistia-player[media-id='ogoz6nss1u']:not(:defined) {
+            background: center / contain no-repeat url('https://fast.wistia.com/embed/medias/ogoz6nss1u/swatch');
+            display: block;
+            filter: blur(5px);
+            padding-top: 56.25%;
+        }
+
+        /* Ensure Wistia player takes full size of its container */
+        wistia-player {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        /* Hintergrundbild für den Introductory Section */
+        .intro-section-bg {
+            background-image: url('https://i.postimg.cc/VstS71VM/Logo-f-r-KI-Agentur-KISS-kurz-f-r-KI-secretary-Service.jpg');
+            background-size: cover; /* Bild deckt den Bereich ab */
+            background-position: center; /* Bild zentrieren */
+            background-repeat: no-repeat; /* Bild nicht wiederholen */
+            position: relative; /* Für z-index Kontext */
+        }
+
+        /* Overlay für Transparenzeffekt auf dem Hintergrundbild */
+        .intro-section-bg::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(15, 23, 42, 0.7); /* Dunkles Overlay mit 70% Deckkraft */
+            z-index: 1; /* Über dem Bild, aber unter dem Inhalt */
+        }
+
+        /* Inhalt des Introductory Section, um über dem Overlay zu liegen */
+        .intro-section-content {
+            position: relative;
+            z-index: 2; /* Über dem Overlay */
+        }
+
+        /* Styling for form status message */
+        #my-form-status {
+            margin-top: 1rem;
+            font-weight: 600;
+            text-align: center;
+        }
+        .success-message {
+            color: #34d399; /* Green for success */
+        }
+        .error-message {
+            color: #f87171; /* Red for error */
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <!-- Header / Navigation (Simple) -->
+    <header class="bg-gray-900 shadow-lg py-4 border-b border-gray-700">
+        <div class="container mx-auto px-4 flex justify-between items-center">
+            <a href="#" class="inline-block">
+                <!-- Bild-Logo -->
+                <img src="https://i.postimg.cc/VstS71VM/Logo-f-r-KI-Agentur-KISS-kurz-f-r-KI-secretary-Service.jpg" alt="KISS Logo KI-Agentur" class="h-16 md:h-20 w-auto">
+            </a>
+            <nav>
+                <ul class="flex space-x-6">
+                    <li><a href="#leistungen" class="text-gray-300 hover:text-blue-400 font-medium transition-colors duration-200">Leistungen</a></li>
+                    <li><a href="#vorteile" class="text-gray-300 hover:text-blue-400 font-medium transition-colors duration-200">Vorteile</a></li>
+                    <li><a href="#kontakt" class="text-gray-300 hover:text-blue-400 font-medium transition-colors duration-200">Kontakt</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="bg-gradient-to-br from-gray-900 via-blue-900 to-purple-900 text-white py-20 md:py-32 relative overflow-hidden">
+        <div class="absolute inset-0 hero-background-dots"></div>
+        <div class="absolute inset-0 hero-background-overlay"></div>
+        <div class="container mx-auto px-4 text-center relative z-10">
+            <h1 class="text-4xl md:text-6xl font-extrabold leading-tight mb-6 animate-fade-in-up">
+                Ihre KI-Sekretärin: <br class="hidden md:block">Revolutionieren Sie Ihr Geschäft mit KI.
+            </h1>
+            <p class="text-xl md:text-2xl mb-10 max-w-3xl mx-auto opacity-90 animate-fade-in-up delay-200">
+                KISS automatisiert Ihre Lead-Generierung, Kundenkommunikation und Terminplanung.
+                <br>Konzentrieren Sie sich auf Ihr Kerngeschäft – wir erledigen den Rest.
+            </p>
+            <a href="#kontakt" class="btn-primary animate-fade-in-up delay-400">
+                Jetzt unverbindlich beraten lassen!
+            </a>
+        </div>
+    </section>
+
+    <!-- Introductory Section with Background Image -->
+    <section class="py-16 md:py-24 bg-gray-900 border-b border-gray-800 intro-section-bg">
+        <div class="container mx-auto px-4 text-center max-w-4xl intro-section-content">
+            <h2 class="text-3xl md:text-4xl font-bold mb-6 text-white">
+                Ihr Business verdient intelligente Unterstützung.
+            </h2>
+            <p class="text-lg md:text-xl text-gray-400 leading-relaxed">
+                In der heutigen schnelllebigen Geschäftswelt ist Effizienz der Schlüssel zum Erfolg.
+                KISS (KI Secretary Service) integriert modernste Künstliche Intelligenz nahtlos in Ihr Unternehmen,
+                um wiederkehrende Aufgaben zu automatisieren, die Kundenbindung zu stärken und Ihre Lead-Pipeline zu optimieren.
+                Von Social Media bis zur automatischen Terminbuchung – wir sind Ihr Partner für digitale Transformation.
+            </p>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section id="leistungen" class="py-16 md:py-24 bg-gray-800">
+        <div class="container mx-auto px-4">
+            <h2 class="section-heading">Unsere intelligenten Leistungen für Ihren Erfolg</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+
+                <!-- Service Card 1: Marketing-Setup & SEO -->
+                <div class="card bg-gray-800 border-gray-700">
+                    <svg class="icon-svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c1.657 0 3 .895 3 2s-1.343 2-3 2S9 11.105 9 10s1.343-2 3-2z"></path>
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.059A9.732 9.732 0 0112 16c4.97 0 9-3.582 9-8s-4.03-8-9-8-9 3.582-9 8a9.732 9.732 0 011.395 3.059L3 4l1.395 3.059A9.863 9.863 0 0112 4c4.97 0 9 3.582 9 8z"></path>
+                    </svg>
+                    <h3 class="text-2xl font-semibold mb-4 text-white">Marketing-Boost & SEO</h3>
+                    <p class="text-gray-400">
+                        Wir richten Ihre Social Media Kanäle ein, erstellen professionelle Landingpages
+                        und optimieren Ihre Inhalte für Google, damit Sie online gefunden werden und neue Kunden anziehen.
+                    </p>
+                </div>
+
+                <!-- Service Card 2: Automatisierte Lead-Generierung -->
+                <div class="card bg-gray-800 border-gray-700">
+                    <svg class="icon-svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+                    </svg>
+                    <h3 class="text-2xl font-semibold mb-4 text-white">Smartes Lead-Management</h3>
+                    <p class="text-gray-400">
+                        Kontaktdaten werden automatisch erfasst, von KI gelesen und per E-Mail oder Telefon
+                        von KI-Assistenten qualifiziert. Kein Lead geht mehr verloren.
+                    </p>
+                </div>
+
+                <!-- Service Card 3: KI-gesteuerte Terminbuchung -->
+                <div class="card bg-gray-800 border-gray-700">
+                    <svg class="icon-svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h.01M10 11h.01M12 11h.01M14 11h.01M16 11h.01M18 11h.01M12 15h.01M14 15h.01M16 15h.01M18 15h.01M12 19h.01M14 19h.01M16 19h.01M18 19h.01"></path>
+                        <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                    </svg>
+                    <h3 class="text-2xl font-semibold mb-4 text-white">Nahtlose Terminplanung</h3>
+                    <p class="text-gray-400">
+                        Unsere KI koordiniert Termine basierend auf Ihrem Kalender, bucht sie automatisch ein
+                        und informiert Sie umgehend – ohne Ihr Zutun.
+                    </p>
+                </div>
+
+                <!-- Service Card 4: KI-Kundensupport -->
+                <div class="card bg-gray-800 border-gray-700">
+                    <svg class="icon-svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8h2a2 2 0 012 2v6a2 2 0 01-2 2h-2v4l-4-4H9a1.994 1.994 0 01-1.414-.586L6 14H5a2 2 0 01-2-2V8a2 2 0 012-2h11.586a1 1 0 01.707.293z"></path>
+                    </svg>
+                    <h3 class="text-2xl font-semibold mb-4 text-white">Exzellenter Kundensupport</h3>
+                    <p class="text-gray-400">
+                        KI-Assistenten beantworten Anfragen, bearbeiten Reklamationen und führen proaktive
+                        Follow-up-Anrufe durch, um die Kundenzufriedenheit und Online-Bewertungen zu steigern.
+                    </p>
+                </div>
+
+                <!-- Service Card 5: Intelligente Chatbots -->
+                <div class="card bg-gray-800 border-gray-700">
+                    <svg class="icon-svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z"></path>
+                    </svg>
+                    <h3 class="text-2xl font-semibold mb-4 text-white">Interaktive Website-Chatbots</h3>
+                    <p class="text-gray-400">
+                        Implementieren Sie Chatbots, die Kunden in Echtzeit mit natürlichen Gesprächen
+                        unterstützen und individuelle Hilfe leisten, ganz ohne Skript.
+                    </p>
+                </div>
+
+                <!-- Service Card 6: KI-Assistenten mit Persönlichkeit -->
+                <div class="card bg-gray-800 border-gray-700">
+                    <svg class="icon-svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z"></path>
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.25a.25.25 0 110-.5.25.25 0 010 .5z"></path>
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 10.75a.75.75 0 11-1.5 0 .75.75 0 011.5 0zM14 10.75a.75.75 0 11-1.5 0 .75.75 0 011.5 0z"></path>
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14c-1.105 0-2 .895-2 2s.895 2 2 2 2-.895 2-2-.895-2-2-2z"></path>
+                    </svg>
+                    <h3 class="text-2xl font-semibold mb-4 text-white">Natürliche KI-Kommunikation</h3>
+                    <p class="text-gray-400">
+                        Unsere KI-Assistenten sprechen natürlich, reagieren individuell und bieten
+                        personalisierte Interaktionen – weit entfernt von starren Hotline-Bots.
+                    </p>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works Section -->
+    <section class="py-16 md:py-24 bg-gray-900 border-b border-gray-800">
+        <div class="container mx-auto px-4">
+            <h2 class="section-heading">So revolutioniert KISS Ihre Lead-Generierung</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+                <div class="space-y-8">
+                    <!-- Step 1 -->
+                    <div class="flex items-start">
+                        <div class="flex-shrink-0 w-12 h-12 bg-blue-600 text-white rounded-full flex items-center justify-center text-xl font-bold mr-4 shadow-md">1</div>
+                        <div>
+                            <h3 class="text-xl font-semibold text-white mb-2">Interessent zeigt Interesse</h3>
+                            <p class="text-gray-400">
+                                Ein potenzieller Kunde füllt ein Kontaktformular auf Ihrer Webseite aus, die wir für Sie erstellt haben.
+                            </p>
+                        </div>
+                    </div>
+                    <!-- Step 2 -->
+                    <div class="flex items-start">
+                        <div class="flex-shrink-0 w-12 h-12 bg-blue-600 text-white rounded-full flex items-center justify-center text-xl font-bold mr-4 shadow-md">2</div>
+                        <div>
+                            <h3 class="text-xl font-semibold text-white mb-2">KI reagiert sofort</h3>
+                            <p class="text-gray-400">
+                                Unser KI-System liest die Anfrage automatisch. Sofort wird entschieden, ob eine E-Mail-Antwort oder ein Anruf des KI-Assistenten am effektivsten ist.
+                            </p>
+                        </div>
+                    </div>
+                    <!-- Step 3 -->
+                    <div class="flex items-start">
+                        <div class="flex-shrink-0 w-12 h-12 bg-blue-600 text-white rounded-full flex items-center justify-center text-xl font-bold mr-4 shadow-md">3</div>
+                        <div>
+                            <h3 class="text-xl font-semibold text-white mb-2">Termin wird vereinbart</h3>
+                            <p class="text-gray-400">
+                                Der KI-Assistent vereinbart am Telefon oder per Mail einen passenden Termin, prüft dabei Ihren Kalender und trägt den Termin direkt ein.
+                            </p>
+                        </div>
+                    </div>
+                    <!-- Step 4 -->
+                    <div class="flex items-start">
+                        <div class="flex-shrink-0 w-12 h-12 bg-blue-600 text-white rounded-full flex items-center justify-center text-xl font-bold mr-4 shadow-md">4</div>
+                        <div>
+                            <h3 class="text-xl font-semibold text-white mb-2">Sie werden informiert</h3>
+                            <p class="text-gray-400">
+                                Sie erhalten eine Benachrichtigung mit allen wichtigen Details: Name des Interessenten, Datum, Uhrzeit, Thema und ggf. Adresse.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="relative flex justify-center items-center">
+                    <!-- Wistia Video Embed -->
+                    <div class="video-container animate-fade-in-right">
+                        <script src="https://fast.wistia.com/player.js" async></script>
+                        <script src="https://fast.wistia.com/embed/ogoz6nss1u.js" async type="module"></script>
+                        <wistia-player media-id="ogoz6nss1u" aspect="1.7777777777777777" autoplay loop muted></wistia-player>
+                    </div>
+                    <!-- Blob animations for visual effect -->
+                    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-48 h-48 bg-purple-500 rounded-full mix-blend-screen filter blur-3xl opacity-40 animate-blob"></div>
+                    <div class="absolute top-1/4 right-1/4 w-32 h-32 bg-blue-500 rounded-full mix-blend-screen filter blur-3xl opacity-40 animate-blob animation-delay-2000"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Benefits Section -->
+    <section id="vorteile" class="py-16 md:py-24 bg-gray-800">
+        <div class="container mx-auto px-4">
+            <h2 class="section-heading">Ihre Vorteile mit KISS: Mehr Zeit, mehr Erfolg.</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+
+                <!-- Benefit Card 1 -->
+                <div class="card bg-gray-700 border-blue-500 border-opacity-50">
+                    <h3 class="text-2xl font-semibold mb-4 text-blue-300">Maximale Effizienz</h3>
+                    <p class="text-gray-300">
+                        Automatisieren Sie zeitraubende Aufgaben von der Lead-Qualifizierung bis zur Terminbuchung.
+                        Ihre Mitarbeiter können sich auf strategische Aufgaben konzentrieren.
+                    </p>
+                </div>
+
+                <!-- Benefit Card 2 -->
+                <div class="card bg-gray-700 border-purple-500 border-opacity-50">
+                    <h3 class="text-2xl font-semibold mb-4 text-purple-300">Konstante Lead-Generierung</h3>
+                    <p class="text-gray-300">
+                        Nie wieder einen Interessenten verpassen. Unsere KI sorgt für eine lückenlose Verfolgung
+                        und qualifizierte Leads, rund um die Uhr, 7 Tage die Woche.
+                    </p>
+                </div>
+
+                <!-- Benefit Card 3 -->
+                <div class="card bg-gray-700 border-green-500 border-opacity-50">
+                    <h3 class="text-2xl font-semibold mb-4 text-green-300">Erhöhte Kundenzufriedenheit</h3>
+                    <p class="text-gray-300">
+                        Schnelle Antworten, proaktiver Support und persönliche Follow-ups –
+                        Ihre Kunden fühlen sich wertgeschätzt und bleiben treu.
+                    </p>
+                </div>
+
+                <!-- Benefit Card 4 -->
+                <div class="card bg-gray-700 border-yellow-500 border-opacity-50">
+                    <h3 class="text-2xl font-semibold mb-4 text-yellow-300">Steigerung der Online-Reputation</h3>
+                    <p class="text-gray-300">
+                        Durch gezielte Nachfragen und das Sammeln von Google-Bewertungen
+                        verbessern Sie Ihren Ruf und ziehen noch mehr Neukunden an.
+                    </p>
+                </div>
+
+                <!-- Benefit Card 5 -->
+                <div class="card bg-gray-700 border-cyan-500 border-opacity-50">
+                    <h3 class="text-2xl font-semibold mb-4 text-cyan-300">Menschliche Interaktion</h3>
+                    <p class="text-gray-300">
+                        Unsere KI-Assistenten klingen nicht wie Bots. Sie reagieren individuell,
+                        führen natürliche Gespräche und passen sich jedem Kunden an.
+                    </p>
+                </div>
+
+                <!-- Benefit Card 6 -->
+                <div class="card bg-gray-700 border-red-500 border-opacity-50">
+                    <h3 class="text-2xl font-semibold mb-4 text-red-300">Fokus auf Ihr Kerngeschäft</h3>
+                    <p class="text-gray-300">
+                        Geben Sie administrative Aufgaben ab. Sie müssen nur noch den vereinbarten Termin wahrnehmen.
+                        So gewinnen Sie wertvolle Zeit für Innovation und Wachstum.
+                    </p>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Call to Action / Contact Section -->
+    <section id="kontakt" class="py-16 md:py-24 bg-gradient-to-r from-blue-800 to-purple-800 text-white">
+        <div class="container mx-auto px-4 text-center max-w-3xl">
+            <h2 class="text-4xl md:text-5xl font-bold mb-6">Bereit für die Zukunft?</h2>
+            <p class="text-xl mb-10 opacity-90">
+                Lassen Sie uns gemeinsam herausfinden, wie KISS Ihr Unternehmen transformieren kann.
+                Fordern Sie jetzt eine unverbindliche Beratung an.
+            </p>
+            <form id="my-form" action="https://formspree.io/f/xkgbraey" method="POST" class="bg-gray-800 p-8 rounded-xl shadow-lg text-white border border-gray-700">
+                <!-- Vorname field -->
+                <div class="mb-6 text-left">
+                    <label for="vorname" class="block text-gray-300 text-sm font-bold mb-2">Ihr Vorname:</label>
+                    <input type="text" id="vorname" name="Vorname" class="shadow appearance-none border border-gray-600 bg-gray-700 rounded-lg w-full py-3 px-4 text-white leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" placeholder="Max" required>
+                </div>
+                <!-- Nachname field -->
+                <div class="mb-6 text-left">
+                    <label for="nachname" class="block text-gray-300 text-sm font-bold mb-2">Ihr Nachname:</label>
+                    <input type="text" id="nachname" name="Nachname" class="shadow appearance-none border border-gray-600 bg-gray-700 rounded-lg w-full py-3 px-4 text-white leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" placeholder="Mustermann" required>
+                </div>
+                <!-- Email field -->
+                <div class="mb-6 text-left">
+                    <label for="email" class="block text-gray-300 text-sm font-bold mb-2">Ihre E-Mail-Adresse:</label>
+                    <input type="email" id="email" name="email" class="shadow appearance-none border border-gray-600 bg-gray-700 rounded-lg w-full py-3 px-4 text-white leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" placeholder="max.mustermann@ihre-firma.de" required>
+                </div>
+                <!-- Telefonnummer field -->
+                <div class="mb-6 text-left">
+                    <label for="telefonnummer" class="block text-gray-300 text-sm font-bold mb-2">Ihre Telefonnummer:</label>
+                    <input type="tel" id="telefonnummer" name="Telefonnummer" class="shadow appearance-none border border-gray-600 bg-gray-700 rounded-lg w-full py-3 px-4 text-white leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" placeholder="0123 456789" required>
+                </div>
+                <div class="mb-8 text-left">
+                    <label for="message" class="block text-gray-300 text-sm font-bold mb-2">Ihre Nachricht (optional):</label>
+                    <textarea id="message" name="message" rows="5" class="shadow appearance-none border border-gray-600 bg-gray-700 rounded-lg w-full py-3 px-4 text-white leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" placeholder="Ich interessiere mich für..."></textarea>
+                </div>
+                <button type="submit" id="my-form-button" class="btn-primary w-full max-w-sm mx-auto">
+                    Kostenlose Beratung anfordern
+                </button>
+                <p id="my-form-status" class="text-sm"></p>
+            </form>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-950 text-gray-400 py-10 border-t border-gray-800">
+        <div class="container mx-auto px-4 text-center">
+            <p>&copy; 2025 KISS - KI Secretary Service. Alle Rechte vorbehalten.</p>
+            <p class="mt-2 text-sm">
+                <a href="#" class="hover:text-white">Impressum</a> | <a href="#" class="hover:text-white">Datenschutz</a>
+            </p>
+        </div>
+    </footer>
+
+    <!-- Place this script at the end of the body tag -->
+    <script>
+      var form = document.getElementById("my-form");
+
+      async function handleSubmit(event) {
+        event.preventDefault();
+        var status = document.getElementById("my-form-status");
+        var data = new FormData(event.target);
+        fetch(event.target.action, {
+          method: form.method,
+          body: data,
+          headers: {
+              'Accept': 'application/json'
+          }
+        }).then(response => {
+          if (response.ok) {
+            status.classList.remove('error-message');
+            status.classList.add('success-message');
+            status.innerHTML = "Vielen Dank für Ihre Anfrage! Wir melden uns in Kürze bei Ihnen.";
+            form.reset(); // Leert das Formular nach erfolgreicher Übermittlung
+          } else {
+            response.json().then(data => {
+              status.classList.remove('success-message');
+              status.classList.add('error-message');
+              if (Object.hasOwn(data, 'errors')) {
+                status.innerHTML = data["errors"].map(error => error["message"]).join(", ");
+              } else {
+                status.innerHTML = "Hoppla! Es gab ein Problem beim Senden Ihrer Anfrage.";
+              }
+            })
+          }
+        }).catch(error => {
+          status.classList.remove('success-message');
+          status.classList.add('error-message');
+          status.innerHTML = "Hoppla! Es gab ein Problem beim Senden Ihrer Anfrage.";
+        });
+      }
+      form.addEventListener("submit", handleSubmit);
+    </script>
+</body>
+</html>
